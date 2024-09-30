@@ -1,0 +1,32 @@
+package com.emp.emp.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class controller {
+
+	@GetMapping("/")
+	public String index() {
+		return "index";
+	}
+	
+	@PostMapping("/upload")
+	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
+		if (Helper.checkExcelFormat(file)) {
+			// true
+
+			this.productService.save(file);
+
+			return ResponseEntity.ok(Map.of("message", "File is uploaded and data is saved to db"));
+
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please upload excel file ");
+	}
+
+	@GetMapping("/show")
+	public List<Product> getAllProduct() {
+		return this.productService.getAllProducts();
+	}
+}

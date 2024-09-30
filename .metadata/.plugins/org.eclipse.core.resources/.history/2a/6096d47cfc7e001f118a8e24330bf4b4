@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Download</title>
+</head>
+<body>
+    <h2>Download a Book</h2>
+    <form th:action="@{/students/books/download/{bookId}(bookId=${bookId})}" method="get">
+        <label for="bookId">Enter Book ID:</label>
+        <input type="text" id="bookId" name="bookId" required>
+        <button type="submit">Download</button>
+    </form>
+</body>
+</html>

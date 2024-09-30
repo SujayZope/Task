@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Reset Password</title>
+	<!-- Add Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			/* Set body height to full viewport height */
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			/* Arrange header and footer at the top and bottom */
+			background-image: url("https://i.pinimg.com/originals/f6/03/35/f603355f44364a5cdb0a65c5f938d8ef.png");
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+		}
+
+		.content {
+			/* Styles for the content */
+			flex-grow: 1;
+		}
+	</style>
+
+	<!-- Add Bootstrap JS (Optional) -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z5G7SjN98D+75LB5pXY1o4PvF04MinfvhY5Bv+"
+		crossorigin="anonymous"></script>
+	<script>
+		function validateForm() {
+			var password = document.getElementById("password").value;
+			var confirmPassword = document.getElementById("confirmPassword").value;
+
+			// Password validation pattern
+			var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])(?=.*[a-zA-Z]).{8,}$/;
+
+			if (!passwordPattern.test(password)) {
+				alert("Password must contain at least one uppercase letter, one lowercase letter, one symbol, one digit, and be at least 8 characters long.");
+				return false;
+			}
+
+			if (password !== confirmPassword) {
+				alert("Passwords do not match.");
+				return false;
+			}
+
+			return true;
+		}
+
+		function togglePasswordVisibility() {
+			var passwordInput = document.getElementById("password");
+			var confirmPasswordInput = document.getElementById("confirmPassword");
+			var showPasswordCheckbox = document.getElementById("showPassword");
+
+			if (showPasswordCheckbox.checked) {
+				passwordInput.type = "text";
+				confirmPasswordInput.type = "text";
+			} else {
+				passwordInput.type = "password";
+				confirmPasswordInput.type = "password";
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<div th:replace="fragments/header::header"></div>
+	<section class="content">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-8">
+					<div class="card mt-5">
+						<div class="card-body">
+							<h2 class="text-center mb-4">Reset Password</h2>
+							<form action="/reset-password" method="post" onsubmit="return validateForm()">
+								<input type="hidden" name="token" th:value="${token}">
+								<div class="mb-3">
+									<label for="password" class="form-label">New Password:</label>
+									<input type="password" class="form-control" id="password" name="password" required>
+								</div>
+								<div class="mb-3">
+									<label for="confirmPassword" class="form-label">Confirm Password:</label>
+									<input type="password" class="form-control" id="confirmPassword"
+										name="confirmPassword" required>
+								</div>
+								<div class="mb-3 form-check">
+									<input type="checkbox" class="form-check-input" id="showPassword"
+										onclick="togglePasswordVisibility()">
+									<label class="form-check-label" for="showPassword">Show Password</label>
+								</div>
+								<button type="submit" class="btn btn-primary">Reset Password</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+
+	<!-- Footer content goes here -->
+	<div th:replace="fragments/footer::footer"></div>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <title>Login 🔒</title>
+
+    <style>
+        .content {
+            /* Styles for the content */
+            flex-grow: 1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            /* Set body height to full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* Arrange header and footer at the top and bottom */
+            background-image: url("https://i.pinimg.com/originals/f6/03/35/f603355f44364a5cdb0a65c5f938d8ef.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="fragments/header::header"></div>
+
+
+    <section class="content">
+
+        <div class="container p-5">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card">
+                        <div class="card-header text-center fs-4">Login Page</div>
+
+                        <div th:if="${param.error}" class="alert alert-danger">
+                            Invalid username & Password</div>
+
+                        <div th:if="${param.logout}" class="alert alert-success">
+                            Logout Sucessfully</div>
+
+                        <div class="card-body">
+                            <form action="/login" method="post">
+
+                                <div class="mb-3">
+                                    <label>Enter Email</label> <input type="text" name="username"
+                                       required class="form-control">
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label>Enter Password</label> <input type="password" name="password"
+                                        required class="form-control">
+                                </div>
+
+                               <!--  Remember Me checkbox 
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" name="rememberMe" class="form-check-input">
+                                    <label class="form-check-label">Remember Me</label>
+                                </div>-->
+
+                                <!-- Login button -->
+                                <button class="btn btn-primary col-md-12 mb-3">Login</button>
+
+                                <!-- Forgot Password button -->
+                                <a href="/forgot-password" class="btn btn-secondary col-md-12">Forgot Password?</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div th:replace="fragments/footer::footer"></div>
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            /* Set body height to full viewport height */
+            background-image: url("https://i.pinimg.com/originals/f6/03/35/f603355f44364a5cdb0a65c5f938d8ef.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            overflow-y: auto;
+            /* Enable vertical scrolling for content */
+        }
+
+        .header {
+            /* Styles for the header */
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            /* Ensure header is above other content */
+        }
+
+        .footer {
+            /* Styles for the footer */
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            /* Ensure footer is above other content */
+        }
+
+        .content {
+            /* Styles for the content */
+            padding-top: 80px;
+            /* Adjust this value based on header height */
+            padding-bottom: 80px;
+        }
+    </style>
+
+    <script>
+        function validateForm() {
+            var firstName = document.getElementById("firstName").value.trim();
+            var lastName = document.getElementById("lastName").value.trim();
+            var age = document.getElementById("age").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var password = document.getElementById("password").value.trim();
+            var confirmPassword = document.getElementById("confirmPassword").value.trim();
+            
+            if (firstName === "" || lastName === "" || age === "" || email === "" || password === "" || confirmPassword === "") {
+                alert("All fields are required");
+                return false;
+            }
+
+            var symbolRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            var capitalRegex = /[A-Z]/;
+            var numberRegex = /[0-9]/;
+
+            if (!symbolRegex.test(password)) {
+                alert("Password must contain at least one symbol (!@#$%^&*(),.?\":{}|<>)");
+                return false;
+            }
+
+            if (!capitalRegex.test(password)) {
+                alert("Password must contain at least one capital letter");
+                return false;
+            }
+
+            if (!numberRegex.test(password)) {
+                alert("Password must contain at least one number");
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</head>
+
+
+<body>
+    <div class="header">
+        <div th:replace="fragments/header::header"></div>
+    </div>
+    <section class="content">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title text-center">Add New Student</h1>
+                            <div th:if="${msg}" class="text-center fs-4 text-success">[[${msg}]]</div>
+                            <form th:action="@{/createStudent}" th:object="${student}" method="POST"
+                                onsubmit="return validateForm()">
+                                <div class="mb-3">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName"
+                                        th:field="*{firstName}" placeholder="Enter First Name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName"
+                                        th:field="*{lastName}" placeholder="Enter Last Name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="age" class="form-label">Age</label>
+                                    <input type="number" class="form-control" id="age" name="age" th:field="*{age}"
+                                        placeholder="Enter Your Age" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="gender" class="form-label">Select Gender</label>
+                                    <select class="form-select" id="gender" name="gender">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        th:field="*{email}" placeholder="Enter Email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Enter Password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                    <input type="password" class="form-control" id="confirmPassword"
+                                        name="confirmPassword" placeholder="Confirm Password" required>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="footer">
+        <div th:replace="fragments/footer::footer"></div>
+    </div>
+</body>
+
+</html>
