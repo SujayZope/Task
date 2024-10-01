@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h1>upload</h1>
+	<form th:action="/upload/file">
+		<label>Select a file:</label>
+		<input type="file" />
+		<br /><br />
+		<input type="submit" />
+	</form>
+
+</body>
+
+</html>

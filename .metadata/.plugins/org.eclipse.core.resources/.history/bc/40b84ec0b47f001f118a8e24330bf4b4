@@ -1,0 +1,82 @@
+package com.emp.emp.service;
+
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.emp.emp.entity.employe;
+import com.emp.emp.repo.EmpRepo;
+
+@Service
+public class EmpService {
+
+	@Autowired
+	private EmpRepo empRepo;
+
+	public void saveDataFromExcelFile(MultipartFile file) throws Exception {
+
+		try (InputStream inputStream = file.getInputStream()) {
+			Workbook workbook = WorkbookFactory.create(inputStream);
+			Sheet sheet = workbook.getSheetAt(0);
+			Iterator<Row> rowIterator = sheet.rowIterator();
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				if (row.getRowNum() == 0) {
+					continue;
+				}
+
+				employe entity = new employe();
+				entity.setId((String) row.getCell(0).getStringCellValue());
+				entity.setName(row.getCell(1).getStringCellValue());
+				entity.setAge((int) row.getCell(2).getNumericCellValue());
+				entity.setAddr1(row.getCell(3).getStringCellValue());
+				entity.setAddr2(row.getCell(4).getStringCellValue());
+				entity.setCity(row.getCell(5).getStringCellValue());
+				entity.setState(row.getCell(6).getStringCellValue());
+				entity.setCountry(row.getCell(7).getStringCellValue());
+				entity.setPincode((int) row.getCell(8).getNumericCellValue());
+				entity.setProject(row.getCell(9).getStringCellValue());
+				entity.setManagerId((int) row.getCell(10).getNumericCellValue());
+				entity.setDate(row.getCell(11).getStringCellValue());
+				entity.setLoginTime(row.getCell(12).getStringCellValue());
+				entity.setLogoutTime(row.getCell(13).getStringCellValue());
+				entity.setApproved("Pending");
+				empRepo.save(entity);
+			}
+		}
+	}
+
+	public List<employe> getAllEmployees() {
+		return empRepo.findAll();
+	}
+	
+	public Optional<employe> FindEmpById(int Id) {
+		return empRepo.findById(Id);
+	}
+
+	public employe getEmpById(int id) {
+		return empRepo.findById(id).get();
+	}
+	
+	public List<employe> getApprovedEmp(){
+		return empRepo.findByApproved("Approved");
+	}
+	
+	public void updateEmp(int id, String status) {
+		employe emp=empRepo.findById(id).orElse(null);
+		if(emp!=null) {
+			emp.setApproved(status);
+			empRepo.save(emp);
+		}
+	}
+	
+}
