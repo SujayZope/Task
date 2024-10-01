@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<title>Home</title>
+</head>
+
+<body>
+	<h1>Hello</h1>
+	<a href="/upload" class="btn btn-secondary col-md-12">upload</a>
+	<a href="/emplist" class="btn btn-secondary col-md-12">View</a>
+	<a href="/sendAppEmp" class="btn btn-secondary col-md-12">Send Mail</a>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Employee</title>
+</head>
+
+<body>
+	<h1>Send Approved Employee data Via Email</h1>
+
+	<form action="@{/sendAppEmp}" method="post">
+		<lable for="email">Enter Mail</lable>
+		<input type="email" id="email" name="email" required>
+		<button type="submit">Send Mail</button>
+
+	</form>
+</body>
+
+</html>

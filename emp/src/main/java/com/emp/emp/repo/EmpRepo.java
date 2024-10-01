@@ -1,8 +1,11 @@
 package com.emp.emp.repo;
 
+
+import java.util.List;
+
+import com.emp.emp.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.emp.emp.entity.employe;
-
-public interface EmpRepo extends JpaRepository<employe,Integer> {
+public interface EmpRepo extends JpaRepository<Employee,Integer> {
+	List<Employee> findByStatus(String status);
 }

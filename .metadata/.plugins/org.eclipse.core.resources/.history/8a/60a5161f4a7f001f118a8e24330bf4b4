@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Employee</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+
+<body>
+	<h1>Employe List</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>age</th>
+				<th>addr1</th>
+				<th>addr2</th>
+				<th>City</th>
+				<th>State</th>
+				<th>Country</th>
+				<th>Pincode</th>
+				<th>Project</th>
+				<th>ManagerId</th>
+				<th>Date</th>
+				<th>LoginTime</th>
+				<th>LogoutTime</th>
+				<th>Status</th>
+				<th>Approved</th>
+				<th>Reject</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="emp : ${emp}">
+				<td th:text="${emp.Id}"></td>
+				<td th:text="${emp.name}"></td>
+				<td th:text="${emp.age}"></td>
+				<td th:text="${emp.addr1}"></td>
+				<td th:text="${emp.addr2}"></td>
+				<td th:text="${emp.city}"></td>
+				<td th:text="${emp.state}"></td>
+				<td th:text="${emp.country}"></td>
+				<td th:text="${emp.pincode}"></td>
+				<td th:text="${emp.project}"></td>
+				<td th:text="${emp.managerId}"></td>
+				<td th:text="${emp.date}"></td>
+				<td th:text="${emp.loginTime}"></td>
+				<td th:text="${emp.logoutTime}"></td>
+				<td th:text="${emp.approved}"></td>
+				<td>
+					<a th:href="@{/approve/{id}(id=${emp.id})}" class="btn btn-primary" 
+					aria-disabled="${emp.id!='Pending'}">
+									Approved
+								</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>
