@@ -86,17 +86,16 @@ public class Empcontroller {
 		return "showEmp";
 	}
 
-	@GetMapping("/approve/{id}")
-	public String approveEmp(@PathVariable int id) {
+	@PostMapping("/updateStatus")
+	public String updateEmpStatus(@RequestParam("empId") int id,
+								  @RequestParam("status") String status,
+								  @RequestParam("comment") String comment) {
+		// Get the employee by id
 		Employee existingEmp = empService.getEmpById(id);
-		empService.updateEmp(id, "Approved");
-		return "redirect:/emplist";
-	}
 
-	@GetMapping("/reject/{id}")
-	public String rejectEmp(@PathVariable int id) {
-		Employee existingEmp = empService.getEmpById(id);
-		empService.updateEmp(id, "Reject");
+		// Save the comment and status
+		empService.updateEmp(id, status, comment);
+
 		return "redirect:/emplist";
 	}
 

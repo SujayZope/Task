@@ -135,10 +135,11 @@ public class EmpService {
 		return empRepo.findByStatus("Approved");
 	}
 	
-	public void updateEmp(int id, String status) {
+	public void updateEmp(int id, String status, String comment) {
 		Employee emp=empRepo.findById(id).orElse(null);
-		if(emp!=null) {
+		if (emp != null) {
 			emp.setStatus(status);
+			emp.setComments(comment); // Assuming there's a comment field in the Employee entity
 			empRepo.save(emp);
 		}
 	}

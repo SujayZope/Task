@@ -22,11 +22,13 @@ public class Employee {
 	private String logoutTime;
 	private String status;
 
+	private String comments;
+
 
 	public Employee() {
 	}
 
-	public Employee(int id, String name, int age, String addr1, String addr2, String city, String state, String country, int pincode, String project, int managerId, String date, String loginTime, String logoutTime, String status) {
+	public Employee(int id, String name, int age, String addr1, String addr2, String city, String state, String country, int pincode, String project, int managerId, String date, String loginTime, String logoutTime, String status, String comments) {
 		Id = id;
 		this.name = name;
 		this.age = age;
@@ -42,6 +44,7 @@ public class Employee {
 		this.loginTime = loginTime;
 		this.logoutTime = logoutTime;
 		this.status = status;
+		this.comments = comments;
 	}
 
 	public int getId() {
@@ -162,5 +165,13 @@ public class Employee {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 }

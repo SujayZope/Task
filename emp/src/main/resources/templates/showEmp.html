@@ -7,6 +7,26 @@
 	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<style>
+		#commentPopup {
+			display: none; /* Hidden by default */
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+			z-index: 1000; /* Sit on top */
+			overflow: auto; /* Enable scrolling if needed */
+		}
+		.modal-dialog {
+			max-width: 500px;
+			margin: 150px auto; /* Center the modal vertically */
+			background-color: white;
+			padding: 20px;
+			border-radius: 5px;
+		}
+	</style>
 </head>
 
 <body style="font-size: 14px;">
@@ -54,12 +74,17 @@
 			<td th:text="${emp.logoutTime}"></td>
 			<td th:text="${emp.status}"></td>
 			<td>
-				<!-- Check if the status is Pending before showing the buttons -->
-				<a th:if="${emp.status == 'Pending'}" th:href="@{/approve/{id}(id=${emp.id})}" class="btn btn-success btn-sm">Approve</a>
+				<!-- Show the Approve button if the status is Pending -->
+				<button th:if="${emp.status == 'Pending'}"
+						class="btn btn-success btn-sm"
+						th:onclick="'openPopup(\'Approved\', ' + ${emp.id} + ')'">Approve</button>
 				<span th:if="${emp.status != 'Pending'}" class="text-muted">N/A</span>
 			</td>
 			<td>
-				<a th:if="${emp.status == 'Pending'}" th:href="@{/reject/{id}(id=${emp.id})}" class="btn btn-danger btn-sm">Reject</a>
+				<!-- Show the Reject button if the status is Pending -->
+				<button th:if="${emp.status == 'Pending'}"
+						class="btn btn-danger btn-sm"
+						th:onclick="'openPopup(\'Reject\', ' + ${emp.id} + ')'">Reject</button>
 				<span th:if="${emp.status != 'Pending'}" class="text-muted">N/A</span>
 			</td>
 		</tr>
@@ -67,9 +92,42 @@
 	</table>
 </div>
 
+<!-- Popup Modal -->
+<div id="commentPopup" onclick="closePopup()">
+	<div class="modal-dialog" onclick="event.stopPropagation();">
+		<h5 class="modal-title">Add Comment</h5>
+		<form id="commentForm" th:action="@{/updateStatus}" method="post">
+			<div class="mb-3">
+				<label for="comment" class="form-label">Comment:</label>
+				<textarea id="comment" name="comment" class="form-control" required></textarea>
+			</div>
+			<input type="hidden" id="status" name="status">
+			<input type="hidden" id="empId" name="empId">
+			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="button" class="btn btn-secondary" onclick="closePopup()">Cancel</button>
+		</form>
+	</div>
+</div>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-mrcC5VBEnnR0H/+0F/hztr+PoMjf11ddP5uklZNc+zKePW3Cf1ogcU5I11WXw5B8" crossorigin="anonymous"></script>
+
+<script>
+	function openPopup(status, empId) {
+		document.getElementById('status').value = status;
+		document.getElementById('empId').value = empId;
+		document.getElementById('commentPopup').style.display = 'block';
+
+		// Focus on the textarea when the popup opens
+		document.getElementById('comment').focus();
+	}
+
+	function closePopup() {
+		document.getElementById('commentPopup').style.display = 'none';
+	}
+</script>
+
 </body>
 
 </html>
